@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  img(src = '#{xam}')
+  a(href='#{xam}' download="AwesomeImage.png")
+    button(type="button") Dowload!
+  a(href="/") return
+  img(src = '#{bien}')
+  form(method='get' action='#{bien}')
+    button(type='submit') Download!
+  a(href='#{bien}' download="AwesomeImage.png")
+    button(type="button") Dowload!
+  a(href="/") return
+
+  script 
+
+  //- img(src ='images\\1621743560210-buoi3.jpg')
+    

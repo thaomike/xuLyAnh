@@ -1,0 +1,111 @@
+extends layout
+block content
+  form(action='/' method='post' enctype="multipart/form-data")
+    if !data
+      ul#myTab.nav.nav-tabs(role='tablist')
+        li.nav-item
+          a#goc-tab.nav-link.active(data-toggle='tab' href='#goc' role='tab' aria-controls='goc' aria-selected='true') Ảnh gốc
+        li.nav-item
+          a#xam-tab.nav-link.disabled(data-toggle='tab' href='#xamhoa' role='tab' aria-controls='xamhoa' aria-selected='false') Xám hóa
+        li.nav-item
+          a#bien-tab.nav-link.disabled(data-toggle='tab' href='#tachbien' role='tab' aria-controls='tachbien' aria-selected='false') Tách biên
+        li.nav-item
+          a#hsv-tab.nav-link.disabled(data-toggle='tab' href='#hsv' role='tab' aria-controls='hsv' aria-selected='false') Tách vật thể màu
+        li.nav-item
+          a#catanh-tab.nav-link.disabled(data-toggle='tab' href='#catanh' role='tab' aria-controls='catanh' aria-selected='false') Cắt ảnh
+        li.nav-item
+          a#xoayanh-tab.nav-link.disabled(data-toggle='tab' href='#xoayanh' role='tab' aria-controls='xoayanh' aria-selected='false') Xoay ảnh
+      #myTabContent.tab-content
+        #goc.tab-pane.fade.show.active(role='tabpanel' aria-labelledby='home-tab') 
+          
+          label(for='fname') Upload your image:
+          br
+          input#fname(type='file' name='fname')
+          br
+          br
+          input(type='submit' value='Upload' name="btn")
+        #xamhoa.tab-pane.fade(role='tabpanel' aria-labelledby='profile-tab')
+          img(src = '#{xam}')
+          a(href='#{xam}' download)
+            button(type="button") Download! 
+        #tachbien.tab-pane.fade(role='tabpanel' aria-labelledby='contact-tab') def
+        #hsv.tab-pane.fade(role='tabpanel' aria-labelledby='contact-tab') def
+        #catanh.tab-pane.fade(role='tabpanel' aria-labelledby='contact-tab') def
+        #xoayanh.tab-pane.fade(role='tabpanel' aria-labelledby='contact-tab') def 
+    else
+      ul#myTab.nav.nav-tabs(role='tablist')
+        li.nav-item
+          a#goc-tab.nav-link.active(data-toggle='tab' href='#goc' role='tab' aria-controls='goc' aria-selected='true') Ảnh gốc
+        li.nav-item
+          a#xam-tab.nav-link.path(data-toggle='tab' href='#xamhoa' role='tab' aria-controls='xamhoa' aria-selected='false') Xám hóa
+        li.nav-item
+          a#bien-tab.nav-link(data-toggle='tab' href='#tachbien' role='tab' aria-controls='tachbien' aria-selected='false') Tách biên
+        li.nav-item
+          a#hsv-tab.nav-link(data-toggle='tab' href='#hsv' role='tab' aria-controls='hsv' aria-selected='false') Tách vật thể màu
+        li.nav-item
+          a#catanh-tab.nav-link(data-toggle='tab' href='#catanh' role='tab' aria-controls='catanh' aria-selected='false') Cắt ảnh
+        li.nav-item
+          a#xoayanh-tab.nav-link(data-toggle='tab' href='#xoayanh' role='tab' aria-controls='xoayanh' aria-selected='false') Xoay ảnh
+      #myTabContent.tab-content
+        #goc.tab-pane.fade.show.active(role='tabpanel' aria-labelledby='home-tab') 
+          img(src = '#{path}')
+          br
+          br
+          label(for='fname') Upload your image:
+          br
+          input#fname(type='file' name='fname')
+          br
+          br
+          input(type='submit' value='Upload' name="btn")
+        #xamhoa.tab-pane.fade(role='tabpanel' aria-labelledby='profile-tab')
+          img(src = '#{xam}')
+          a(href='#{xam}' download)
+            button.btn.btn-outline-primary(type='button') Download!!
+
+        #tachbien.tab-pane.fade(role='tabpanel' aria-labelledby='contact-tab')
+          img(src="#{bien}", alt="")
+          a(href='#{bien}' download)
+            button.btn.btn-outline-primary(type='button') Download!!
+        #hsv.tab-pane.fade(role='tabpanel' aria-labelledby='contact-tab')
+          if !hsv
+            input(type='submit' name="hsv" value="Tách vật thể màu")
+            input(type="hidden" name="xoayPath" value='#{xoay}')
+            br
+            label(for="H") Hệ số của H
+            input#H(type='text' name='H')
+            br
+            label(for="S") Hệ số của S
+            input#S(type='text' name='S')
+            br
+            label(for="V") Hệ số của V
+            input#V(type='text' name='V')
+          else if hsv
+            img(src='#{hsv}')
+            a(href='#{hsv}' download)
+              button.btn.btn-outline-primary(type='button') Download!!
+        #catanh.tab-pane.fade(role='tabpanel' aria-labelledby='contact-tab')
+          img(src="#{cat}", alt="")
+          a(href='#{cat}' download)
+            button.btn.btn-outline-primary(type='button') Download!!
+        #xoayanh.tab-pane.fade(role='tabpanel' aria-labelledby='contact-tab')
+          if !xoay
+            label(for="goc") Hệ số góc xoay ảnh
+            input#stuff(type='text' name='xoay')
+            input(type="hidden" name="var" value='#{path}')
+            input(type="hidden" name="hsvPath" value='#{hsv}')
+            input(type='submit' value="Xoay ảnh")
+          else 
+            label(for="goc") Hệ số góc xoay ảnh
+            input#stuff(type='text' name='xoay')
+            input(type="hidden" name="var" value='#{path}')
+            input(type="hidden" name="hsvPath" value='#{hsv}')
+            input(type='submit' value="Xoay ảnh")
+            br
+            br
+            img(src='#{xoay}')
+            a(href='#{xoay}' download)
+              button.btn.btn-outline-primary(type='button') Download!!
+
+
+
+      
