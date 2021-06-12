@@ -68,16 +68,9 @@ block content
       #nhiphan.tab-pane.fade(role='tabpanel' aria-labelledby='profile-tab')
         form(action='/' method='post')
           label(for="tachnguong") Nhập ngưỡng tách
-          input.form-control-range#myRange(type='range' min='0' max='255' style='width: 50%;' name="tachnguong")
+          input#myRange.form-control-range(type='range' min='0' max='255' style='width: 50%;' name="tachnguong")
           p#rangeOutput
-          script.
-            var slider = document.getElementById("myRange");
-            var output = document.getElementById("rangeOutput");
-            output.innerHTML = slider.value; // Display the default slider value
-            // Update the current slider value (each time you drag the slider handle)
-            slider.oninput = function() {
-            output.innerHTML = this.value;
-            }
+        
 
           input(type='submit' name="nguong" value="Tách ngưỡng")
           input(type="hidden" name="var" value='#{path}')
@@ -85,6 +78,15 @@ block content
           img(src = '#{nhiphan}')
           a(href='#{nhiphan}' download)
             button.btn.btn-outline-primary(type='button') Download!!
+
+        script.
+          var slider = document.getElementById("myRange");
+          var rangeOutput = document.getElementById("rangeOutput");
+          rangeOutput.innerHTML = slider.value; // Display the default slider value
+          // Update the current slider value (each time you drag the slider handle)
+          slider.oninput = function() {
+            rangeOutput.innerHTML = this.value;
+          }
 
       #lamtron.tab-pane.fade(role='tabpanel' aria-labelledby='contact-tab')
         form#formLoc(action='/' method='post')
