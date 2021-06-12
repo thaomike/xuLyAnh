@@ -7,6 +7,10 @@ block content
       li.nav-item
         a#xam-tab.nav-link.disabled(data-toggle='tab' href='#xamhoa' role='tab' aria-controls='xamhoa' aria-selected='false') Xám hóa
       li.nav-item
+        a#nhiphan-tab.nav-link.disabled(data-toggle='tab' href='#nhiphan' role='tab' aria-controls='nhiphan' aria-selected='false') Nhị phân
+      li.nav-item
+        a#lamtron-tab.nav-link.disabled(data-toggle='tab' href='#lamtron' role='tab' aria-controls='lamtron' aria-selected='false') Làm trơn
+      li.nav-item
         a#bien-tab.nav-link.disabled(data-toggle='tab' href='#tachbien' role='tab' aria-controls='tachbien' aria-selected='false') Tách biên
       li.nav-item
         a#hsv-tab.nav-link.disabled(data-toggle='tab' href='#hsv' role='tab' aria-controls='hsv' aria-selected='false') Tách vật thể màu
@@ -25,20 +29,16 @@ block content
           br
           br
           input(type='submit' value='Upload' name="btn")
-      #xamhoa.tab-pane.fade(role='tabpanel' aria-labelledby='profile-tab')
-        img(src = '#{xam}')
-        a(href='#{xam}' download)
-          button(type="button") Download! 
-      #tachbien.tab-pane.fade(role='tabpanel' aria-labelledby='contact-tab') def
-      #hsv.tab-pane.fade(role='tabpanel' aria-labelledby='contact-tab') def
-      #catanh.tab-pane.fade(role='tabpanel' aria-labelledby='contact-tab') def
-      #xoayanh.tab-pane.fade(role='tabpanel' aria-labelledby='contact-tab') def 
   else
     ul#myTab.nav.nav-tabs(role='tablist')
       li.nav-item
         a#goc-tab.nav-link.active(data-toggle='tab' href='#goc' role='tab' aria-controls='goc' aria-selected='true') Ảnh gốc
       li.nav-item
         a#xam-tab.nav-link.path(data-toggle='tab' href='#xamhoa' role='tab' aria-controls='xamhoa' aria-selected='false') Xám hóa
+      li.nav-item
+        a#nhiphan-tab.nav-link(data-toggle='tab' href='#nhiphan' role='tab' aria-controls='nhiphan' aria-selected='false') Nhị phân
+      li.nav-item
+        a#lamtron-tab.nav-link(data-toggle='tab' href='#lamtron' role='tab' aria-controls='lamtron' aria-selected='false') Làm trơn
       li.nav-item
         a#bien-tab.nav-link(data-toggle='tab' href='#tachbien' role='tab' aria-controls='tachbien' aria-selected='false') Tách biên
       li.nav-item
@@ -65,43 +65,230 @@ block content
         img(src = '#{xam}')
         a(href='#{xam}' download)
           button.btn.btn-outline-primary(type='button') Download!!
+      #nhiphan.tab-pane.fade(role='tabpanel' aria-labelledby='profile-tab')
+        form(action='/' method='post')
+          label(for="tachnguong") Nhập ngưỡng tách
+          input.form-control-range#myRange(type='range' min='0' max='255' style='width: 50%;' name="tachnguong")
+          p#rangeOutput
+          script.
+            var slider = document.getElementById("myRange");
+            var output = document.getElementById("rangeOutput");
+            output.innerHTML = slider.value; // Display the default slider value
+            // Update the current slider value (each time you drag the slider handle)
+            slider.oninput = function() {
+            output.innerHTML = this.value;
+            }
 
+          input(type='submit' name="nguong" value="Tách ngưỡng")
+          input(type="hidden" name="var" value='#{path}')
+        if nhiphan
+          img(src = '#{nhiphan}')
+          a(href='#{nhiphan}' download)
+            button.btn.btn-outline-primary(type='button') Download!!
+
+      #lamtron.tab-pane.fade(role='tabpanel' aria-labelledby='contact-tab')
+        form#formLoc(action='/' method='post')
+          input(type="hidden" name="var" value='#{path}')
+          .form-check
+            label.form-check-label(for='radio1')
+              input#radio1.form-check-input(type='radio' name='optradio' value='1' checked='')
+              | Lọc Gauss
+          .form-check
+            label.form-check-label(for='radio2')
+              input#radio2.form-check-input(type='radio' name='optradio' value='2')
+              | Lọc trung bình
+          .form-check
+            label.form-check-label
+              input#radio3.form-check-input(type='radio' name="optradio" value='3')
+              | Lọc trung vị
+          label#size.form-label(for='Ksize' style="display: none") Kích thước cửa sổ
+          label#width.form-label(for='Ksize') Chiều rộng cửa sổ
+          br
+          input#Kwidth.form-range(type='range' min='1' max='255' value=3 step='2' name="width")
+          p#KwidthOutput
+          
+          label#height.form-label(for='Ksize' name="height") Chiều cao cửa sổ
+          br
+          input#Kheight.form-range(type='range' min='1' max='255' value=3 step='2' name="height")
+          p#KheightOutput
+
+          label#SigmaXLabel.form-label(for='SigmaX') SigmaX
+          br
+          input#SigmaX.form-range(type='range' min='1' max='255' value=3 step='1' name="SigmaX")
+          p#SigmaXOutput
+          label#SigmaYLabel.form-label(for='SigmaY') SigmaY
+          br
+          input#SigmaY.form-range(type='range' min='1' max='255' value=3 step='1' name="SigmaY")
+          p#SigmaYOutput
+          script.
+            var formm = document.getElementById("formLoc");
+
+            formm.addEventListener('change', function (e) {
+                let target = e.target;
+                let message;
+                switch (target.id) {
+                    case 'radio1':
+                        message = 'Nhập chiều rộng cửa sổ';
+                        var kheight = document.getElementById('Kheight');
+                        kheight.style.display = "block";
+                        var height = document.getElementById('height');
+                        height.style.display = "block";
+                        var Houtput = document.getElementById("KheightOutput");
+                        Houtput.style.display = "block";
+                        
+                        var SigmaXLabel = document.getElementById('SigmaXLabel');
+                        SigmaXLabel.style.display = "block";
+                        var SigmaX = document.getElementById('SigmaX');
+                        SigmaX.style.display = "block";
+                        var SigmaXOutput = document.getElementById("SigmaXOutput");
+                        SigmaXOutput.style.display = "block";
+                        var SigmaYLabel = document.getElementById('SigmaYLabel');
+                        SigmaYLabel.style.display = "block";
+                        var SigmaY = document.getElementById('SigmaY');
+                        SigmaY.style.display = "block";
+                        var SigmaYOutput = document.getElementById("SigmaYOutput");
+                        SigmaYOutput.style.display = "block";
+
+                        var size = document.getElementById('size');
+                        size.style.display = "none";
+
+                        break;
+                    case 'radio2':
+                        message = 'Nhập chiều rộng cửa sổ';
+                        var kheight = document.getElementById('Kheight');
+                        kheight.style.display = "block";
+
+                        var height = document.getElementById('height');
+                        height.style.display = "block";
+                        var Houtput = document.getElementById("KheightOutput");
+                        Houtput.style.display = "block";
+
+                        var SigmaXLabel = document.getElementById('SigmaXLabel');
+                        SigmaXLabel.style.display = "none";
+                        var SigmaX = document.getElementById('SigmaX');
+                        SigmaX.style.display = "none";
+                        var SigmaXOutput = document.getElementById("SigmaXOutput");
+                        SigmaXOutput.style.display = "none";
+                        var SigmaYLabel = document.getElementById('SigmaYLabel');
+                        SigmaYLabel.style.display = "none";
+                        var SigmaY = document.getElementById('SigmaY');
+                        console.log(SigmaY)
+                        SigmaY.style.display = "none";
+                        var SigmaYOutput = document.getElementById("SigmaYOutput");
+                        SigmaYOutput.style.display = "none";
+
+                        var size = document.getElementById('size');
+                        size.style.display = "none";
+                        break;
+                    case 'radio3':
+                        message = 'Kích thước cửa sổ';
+                        var kheight = document.getElementById('Kheight');
+                        kheight.style.display = "none";
+
+                        var height = document.getElementById('height');
+                        height.style.display = "none";
+                        var Houtput = document.getElementById("KheightOutput");
+                        Houtput.style.display = "none";
+
+                        var SigmaXLabel = document.getElementById('SigmaXLabel');
+                        SigmaXLabel.style.display = "none";
+                        var SigmaX = document.getElementById('SigmaX');
+                        SigmaX.style.display = "none";
+                        var SigmaXOutput = document.getElementById("SigmaXOutput");
+                        SigmaXOutput.style.display = "none";
+                        var SigmaYLabel = document.getElementById('SigmaYLabel');
+                        SigmaYLabel.style.display = "none";
+                        var SigmaY = document.getElementById('SigmaY');
+                        SigmaY.style.display = "none";
+                        var SigmaYOutput = document.getElementById("SigmaYOutput");
+                        SigmaYOutput.style.display = "none";
+
+                        var size = document.getElementById('size');
+                        size.style.display = "block";
+                        break;
+                }
+            });
+
+            var kwidth = document.getElementById("Kwidth");
+            var Kheight = document.getElementById("Kheight");
+            
+            var SigmaX = document.getElementById("SigmaX");
+            var SigmaY = document.getElementById("SigmaY");
+
+            var output = document.getElementById("KwidthOutput");
+            var Houtput = document.getElementById("KheightOutput");
+
+            var SigmaXOutput = document.getElementById("SigmaXOutput");
+            var SigmaYOutput = document.getElementById("SigmaYOutput");
+
+            output.innerHTML = kwidth.value; // Display the default slider value
+            Houtput.innerHTML = Kheight.value; // Display the default slider value
+            SigmaXOutput.innerHTML = SigmaX.value;
+            SigmaYOutput.innerHTML = SigmaY.value;
+
+            // Update the current slider value (each time you drag the slider handle)
+            kwidth.oninput = function() {
+              output.innerHTML = this.value;
+            }
+            Kheight.oninput = function() {
+              Houtput.innerHTML = this.value;
+            }
+            SigmaX.oninput = function() {
+              SigmaXOutput.innerHTML = this.value;
+            }
+            SigmaY.oninput = function() {
+              SigmaYOutput.innerHTML = this.value;
+            }
+
+          button.btn.btn-primary(type='submit') Submit
+        if tron
+          img(src="#{tron}", alt="")
+          a(href='#{tron}' download)
+            button.btn.btn-outline-primary(type='button') Download!!
       #tachbien.tab-pane.fade(role='tabpanel' aria-labelledby='contact-tab')
         img(src="#{bien}", alt="")
         a(href='#{bien}' download)
           button.btn.btn-outline-primary(type='button') Download!!
       #hsv.tab-pane.fade(role='tabpanel' aria-labelledby='contact-tab')
-        if !hsv
-          form(action='/' method='post')
-            input(type='submit' name="hsv" value="Tách vật thể màu")
-            input(type="hidden" name="var" value='#{path}')
-            input(type="hidden" name="xoayPath" value='#{xoay}')
-            br
-            label(for="H") Hệ số của R
-            input#H(type='text' name='H')
-            br
-            label(for="S") Hệ số của G
-            input#S(type='text' name='S')
-            br
-            label(for="V") Hệ số của B
-            input#V(type='text' name='V')
-            br
-            br
-            input#color(type='color' onchange='clickColor(0, -1, -1, 5)' value='#ff0000' style='width:25%;')
-            script.
-              let colorInput = document.getElementById('color');
-              colorInput.addEventListener('input', () =>{
-                let colorValue = colorInput.value;
-                const r = parseInt(colorValue.substr(1,2), 16)
-                const g = parseInt(colorValue.substr(3,2), 16)
-                const b = parseInt(colorValue.substr(5,2), 16)
-                console.log(`red: ${r}, green: ${g}, blue: ${b}`)
-                document.getElementById('H').value = r;
-                document.getElementById('S').value = g;
-                document.getElementById('V').value = b;
-              });
+        form(action='/' method='post')
+          input(type='submit' name="hsv" value="Tách vật thể màu")
+          input(type="hidden" name="var" value='#{path}')
+          //- input(type="hidden" name="xoayPath" value='#{xoay}')
+          br
+          label(for="H") Hệ số của R
+          input#H(type='text' name='H')
+          br
+          label(for="S") Hệ số của G
+          input#S(type='text' name='S')
+          br
+          label(for="V") Hệ số của B
+          input#V(type='text' name='V')
+          br
+          br
+          input#color(type='color' value='#ff0000' style='width:25%;')
+          br
+          br
+          p Ảnh gốc
+          img(src="#{path}", alt="anhgoc")
+          
+          script.
+            let colorInput = document.getElementById('color');
+            colorInput.addEventListener('input', () =>{
+              let colorValue = colorInput.value;
+              const r = parseInt(colorValue.substr(1,2), 16)
+              const g = parseInt(colorValue.substr(3,2), 16)
+              const b = parseInt(colorValue.substr(5,2), 16)
+              console.log(`red: ${r}, green: ${g}, blue: ${b}`)
+              document.getElementById('H').value = r;
+              document.getElementById('S').value = g;
+              document.getElementById('V').value = b;
+            });
 
-        else if hsv
+        if hsv
+          br
+          br
+          p Ảnh tách màu
+          
           img(src='#{hsv}')
           a(href='#{hsv}' download)
             button.btn.btn-outline-primary(type='button') Download!!
@@ -115,14 +302,12 @@ block content
             label(for="goc") Hệ số góc xoay ảnh
             input#stuff(type='text' name='xoay')
             input(type="hidden" name="var" value='#{path}')
-            input(type="hidden" name="hsvPath" value='#{hsv}')
             input(type='submit' value="Xoay ảnh")
         else 
           form(action='/' method='post' enctype="multipart/form-data")
             label(for="goc") Hệ số góc xoay ảnh
             input#stuff(type='text' name='xoay')
             input(type="hidden" name="var" value='#{path}')
-            input(type="hidden" name="hsvPath" value='#{hsv}')
             input(type='submit' value="Xoay ảnh")
             br
             br

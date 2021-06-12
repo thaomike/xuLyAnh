@@ -54,10 +54,43 @@ router.post('/', function (req, res) {
       python = [...python, pathCat, 2, req.body.H, req.body.S, req.body.V];
       control = 2;
     }
-    else if(req.body.xoay != '') {
+    else if(req.body.xoay &&req.body.xoay != '') {
       pathCat = 'uploads\\' + req.body.var;
       python = [...python,pathCat, 3, req.body.xoay];
       control = 3;
+    }
+    else if(req.body.nguong)
+    {
+      pathCat = 'uploads\\' + req.body.var;
+      python = [...python,pathCat, 4, req.body.tachnguong];
+      control=4;
+    }
+    else if(req.body.optradio)
+    {
+      pathCat = 'uploads\\' + req.body.var;
+      control=5;
+      switch(req.body.optradio)
+      {
+        case "1":
+          python = [...python, pathCat, 
+            5, 1, 
+            req.body.width, req.body.height, req.body.SigmaX, req.body.SigmaY]
+          break;
+        case "2":
+          python = [
+            ...python, pathCat, 
+            5, 2, 
+            req.body.width, req.body.height
+          ]
+          break;
+        case "3":
+          python = [
+            ...python, pathCat, 
+            5, 3, 
+            req.body.width
+          ]
+          break;
+      }
     }
     
     if (err) {
@@ -81,7 +114,6 @@ router.post('/', function (req, res) {
         }
         else if(control == 2) {
           file = req.body.var
-          req.body.xoayPath != 'undefined' ?
           res.render('index', 
           {
             data: true,
@@ -91,34 +123,10 @@ router.post('/', function (req, res) {
             cat: 'cat'+file,
             detect: "detect" + file,
             hsv: "hsv" + file,
-            xoay: 'xoay' + file
           })
-           :
-          res.render('index', 
-          {
-            data: true,
-            path: file,
-            xam: 'xam'+file,
-            bien: 'bien' + file,
-            cat: 'cat'+file,
-            detect: "detect" + file,
-            hsv: "hsv" + file,
-          });
         }
         else if(control == 3) {
           file = req.body.var
-          req.body.hsvPath != 'undefined' ?
-          res.render('index', 
-          {
-            data: true,
-            path: file,
-            xam: 'xam'+file,
-            bien: 'bien' + file,
-            cat: 'cat'+file,
-            detect: "detect" + file,
-            hsv: "hsv" + file,
-            xoay: 'xoay' +file
-          }) :
           res.render('index',{
             data: true,
             path: file,
@@ -129,6 +137,33 @@ router.post('/', function (req, res) {
             xoay: 'xoay' +file
           }) ;
         }
+        else if(control == 4)
+        {
+          file = req.body.var
+          res.render('index',{
+            data: true,
+            path: file,
+            xam: 'xam'+file,
+            bien: 'bien' + file,
+            cat: 'cat'+file,
+            detect: "detect" + file,
+            nhiphan: 'nhiphan' +file
+          }) ;
+        }
+        else if(control == 5)
+        {
+          file = req.body.var
+          res.render('index',{
+            data: true,
+            path: file,
+            xam: 'xam'+file,
+            bien: 'bien' + file,
+            cat: 'cat'+file,
+            detect: "detect" + file,
+            tron: 'tron' +file
+          }) ;
+        }
+
       });
     }
   })

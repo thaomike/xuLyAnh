@@ -11,19 +11,30 @@ def xamhoa(key):
      save = keyArr[0] + '\\' + keyArr[1]
      cv2.imwrite(save,gray);
      return;
+
+
+def nhiphan(key, extra):
+     img = cv2.imread(key)
+     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+     ret,thresh1 = cv2.threshold(gray, extra, 255, cv2.THRESH_BINARY);
+     
+     keyArr = key.split('\\')
+
+     keyArr[1] = 'nhiphan' + keyArr[1]; 
+     save = keyArr[0] + '\\' + keyArr[1]
+     cv2.imwrite(save,thresh1);
+     return;
+
+
 def tachbien(key):
      img = cv2.imread(key,0)
      img2= cv2.Canny(img,100,200)
-     # cv2.imwrite(key,img2);
 
      keyArr = key.split('\\')
      keyArr[1] = 'bien' + keyArr[1];     
      key = keyArr[0]+'\\' + keyArr[1];
      cv2.imwrite(key,img2)
-     # cv2.imshow(key,img2)
-     # cv2.imshow(key,img)
-     # cv2.waitKey(0)
-     # cv2.destroyAllWindows()
+
      return;
 
 def tachvatthe(r,g,bb,key):
@@ -103,6 +114,40 @@ def detectionface(key):
      # cv2.waitKey()
      return;
 
+def lamtron(key, select):
+     img = cv2.imread(key,1)
+     KERNEL_WIDTH = int(sys.argv[4]) ##kich thuoc cua so bo loc
+     KERNEL_HEIGHT = int(sys.argv[5])##kich thuoc cua so bo loc
+     if select == 1:
+          SIGMA_X = int(sys.argv[6])
+          SIGMA_Y = int(sys.argv[7])
+
+          blur_img = cv2.GaussianBlur(img, ksize=(KERNEL_WIDTH, KERNEL_HEIGHT), sigmaX=SIGMA_X, sigmaY=SIGMA_Y)
+          
+          keyArr = key.split('\\')
+
+          keyArr[1] = 'tron' + keyArr[1]; 
+          save = keyArr[0] + '\\' + keyArr[1]
+
+          cv2.imwrite(save, blur_img)
+     if select == 2:
+          blur_img = cv2.blur(img, ksize=(KERNEL_WIDTH, KERNEL_HEIGHT))
+          keyArr = key.split('\\')
+
+          keyArr[1] = 'tron' + keyArr[1]; 
+          save = keyArr[0] + '\\' + keyArr[1]
+
+          cv2.imwrite(save, blur_img)
+     if select == 3:
+          print("sdf")
+          blur_img = cv2.medianBlur(img, KERNEL_WIDTH)
+          keyArr = key.split('\\')
+
+          keyArr[1] = 'tron' + keyArr[1]; 
+          save = keyArr[0] + '\\' + keyArr[1]
+
+          cv2.imwrite(save, blur_img)
+     return;
 
 print(sys.argv[1]);
 
@@ -123,3 +168,11 @@ if cmp==3:
      key=sys.argv[1]
      a = int(sys.argv[3])
      xoayanh(key,a)
+if cmp == 4:
+     key=sys.argv[1]
+     extra = int(sys.argv[3])
+     nhiphan(key,extra)
+if cmp == 5:
+     key=sys.argv[1]
+     select = int(sys.argv[3])
+     lamtron(key,select)
