@@ -106,21 +106,21 @@ block content
           label#size.form-label(for='Ksize' style="display: none") Kích thước cửa sổ
           label#width.form-label(for='Ksize') Chiều rộng cửa sổ
           br
-          input#Kwidth.form-range(type='range' min='1' max='255' value=3 step='2' name="width")
+          input#Kwidth.form-range(type='range' min='1' max='255' value=3 step='2' name="width" style="width: 50%;")
           p#KwidthOutput
           
           label#height.form-label(for='Ksize' name="height") Chiều cao cửa sổ
           br
-          input#Kheight.form-range(type='range' min='1' max='255' value=3 step='2' name="height")
+          input#Kheight.form-range(type='range' min='1' max='255' value=3 step='2' name="height" style="width: 50%;")
           p#KheightOutput
 
           label#SigmaXLabel.form-label(for='SigmaX') SigmaX
           br
-          input#SigmaX.form-range(type='range' min='1' max='255' value=3 step='1' name="SigmaX")
+          input#SigmaX.form-range(type='range' min='1' max='255' value=3 step='1' name="SigmaX" style="width: 50%;")
           p#SigmaXOutput
           label#SigmaYLabel.form-label(for='SigmaY') SigmaY
           br
-          input#SigmaY.form-range(type='range' min='1' max='255' value=3 step='1' name="SigmaY")
+          input#SigmaY.form-range(type='range' min='1' max='255' value=3 step='1' name="SigmaY" style="width: 50%;")
           p#SigmaYOutput
           script.
             var formm = document.getElementById("formLoc");
@@ -174,7 +174,6 @@ block content
                         var SigmaYLabel = document.getElementById('SigmaYLabel');
                         SigmaYLabel.style.display = "none";
                         var SigmaY = document.getElementById('SigmaY');
-                        console.log(SigmaY)
                         SigmaY.style.display = "none";
                         var SigmaYOutput = document.getElementById("SigmaYOutput");
                         SigmaYOutput.style.display = "none";
@@ -280,7 +279,6 @@ block content
               const r = parseInt(colorValue.substr(1,2), 16)
               const g = parseInt(colorValue.substr(3,2), 16)
               const b = parseInt(colorValue.substr(5,2), 16)
-              console.log(`red: ${r}, green: ${g}, blue: ${b}`)
               document.getElementById('H').value = r;
               document.getElementById('S').value = g;
               document.getElementById('V').value = b;
