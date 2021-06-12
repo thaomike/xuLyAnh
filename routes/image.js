@@ -66,7 +66,7 @@ router.post('/', function (req, res) {
     else {
       var process = spawn('python', python);
       process.stdout.on('data', function (data) {
-
+        console.log(data.toString())
         if(control == 1){
           var file = `${req.file.filename}`;
           res.render('index', 
@@ -76,6 +76,7 @@ router.post('/', function (req, res) {
             xam: 'xam'+file,
             bien: 'bien' + file,
             cat: 'cat'+file,
+            detect: "detect" + file,
           });
         }
         else if(control == 2) {
@@ -88,6 +89,7 @@ router.post('/', function (req, res) {
             xam: 'xam'+file,
             bien: 'bien' + file,
             cat: 'cat'+file,
+            detect: "detect" + file,
             hsv: "hsv" + file,
             xoay: 'xoay' + file
           })
@@ -99,6 +101,7 @@ router.post('/', function (req, res) {
             xam: 'xam'+file,
             bien: 'bien' + file,
             cat: 'cat'+file,
+            detect: "detect" + file,
             hsv: "hsv" + file,
           });
         }
@@ -112,6 +115,7 @@ router.post('/', function (req, res) {
             xam: 'xam'+file,
             bien: 'bien' + file,
             cat: 'cat'+file,
+            detect: "detect" + file,
             hsv: "hsv" + file,
             xoay: 'xoay' +file
           }) :
@@ -121,6 +125,7 @@ router.post('/', function (req, res) {
             xam: 'xam'+file,
             bien: 'bien' + file,
             cat: 'cat'+file,
+            detect: "detect" + file,
             xoay: 'xoay' +file
           }) ;
         }
